@@ -1,0 +1,76 @@
+<section class="content">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-5">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Income and Expenses</h3>
+          </div>
+          <div class="card-body table-responsive pad">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn bg-olive active">
+                <input type="radio" name="options" id="annual" autocomplete="off" checked> Annual
+              </label>
+              <label class="btn bg-olive">
+                <input type="radio" name="options" id="monthly" autocomplete="off"> Monthly
+              </label>
+            </div>
+
+            <p></p>
+            <div class="input-group mb-3">
+              <!-- <form action="/submitincome" method="post" class="form-inline"> -->
+              <!-- <form class="form-inline"> -->
+                <!-- <div class="card-body"> -->
+                  <!-- <div class="form-group row"> -->
+                    <input id="incomeamt" name="incomeamt" type="text" class="form-control" placeholder="Annual Income">
+                    <div class="input-group-prepend">
+                      <button id="incomebtn" type="submit" class="btn btn-info btn-flat bg-olive">Enter</button>
+                    </div>
+                  <!-- </div> -->
+                <!-- </div> -->
+              <!-- </form> -->
+            </div>
+            <p id="message">{{ message }}</p>
+          </div>
+
+          <div class="card">
+            <div id="iechart">
+              
+            </div>
+            <!-- /.card-footer-->
+          </div>
+        </div>
+  <!-- /.card -->
+
+    </div>
+    <!-- /.col-md-6 -->
+    <div class="col-lg-7">
+      <div class="card">
+        <div class="card-header border-0">
+          <div class="d-flex justify-content-between">
+            <h3 class="card-title">Subcategories</h3>
+            <!-- <a href="javascript:void(0);">View Report</a> -->
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="subcategories" >
+            <!-- <p class="ml-auto d-flex flex-column text-right">
+              <span class="text-success">
+                <i class="fas fa-arrow-up"></i> 33.1%
+              </span>
+              <span class="text-muted">Since last month</span>
+            </p> -->
+          </div>
+          <!-- /.d-flex -->
+
+
+        </div>
+      </div>
+      <!-- /.card -->
+    </div>
+    <!-- /.col-md-6 -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container-fluid -->
+</section>
