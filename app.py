@@ -73,7 +73,19 @@ def index():
 def dashboard():
     # Get distinct years from the database
     dates_query = session.query(ExpenseInfo.transaction_date.distinct().label("date"))
-    dates = [row.date.year for row in dates_query.all()]
+
+    for e in dates_query.all():
+        print(e)
+
+    try:
+        dates = []
+        alldates = dates_query.all()
+        for row in alldates:
+            if row.date and hasattr(row.date, 'year'):
+                dates.append(row.date.year)
+    except ValueError :
+        print('error in date format')
+
 
     # Get categories from the database
     cat_query = session.query(ExpenseInfo.category.distinct().label("category"))
@@ -125,6 +137,19 @@ def filters():
     expenses = session.query(func.sum(ExpenseInfo.expense_amt))
 
     filters = request.json["filters"]
+
+    # Get expenses by category in a given month
+    i_expenses = {}
+    expensesTracker = session.query(func.round(func.sum(ExpenseInfo.expense_amt)), 
+                        func.month(ExpenseInfo.transaction_date),
+                        ExpenseInfo.category,
+                        func.max(ExpenseInfo.transaction_date.cast(Date))).\
+                        group_by(ExpenseInfo.category)
+
+    for e in expensesTracker.all():
+            exp_key.append(str(e[2]))
+            exp_val.append(str(e[0]))
+
 
     if "years" in filters and len(filters["years"])>0:
         years = filters["years"]
@@ -185,7 +210,6 @@ def filters():
         credit_amt = credit_amt.filter(ExpenseInfo.category.in_(categories))
         cash_amt = cash_amt.filter(ExpenseInfo.category.in_(categories))
         expenses = expenses.filter(ExpenseInfo.category.in_(categories))     
-
 
         # Get expenses by sub category in a given month
         subcat_key = []
