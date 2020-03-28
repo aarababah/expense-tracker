@@ -193,11 +193,14 @@ def filters():
         expensesTracker = session.query(func.round(func.sum(ExpenseInfo.expense_amt)), 
                             func.month(ExpenseInfo.transaction_date),
                             ExpenseInfo.category,
-                            func.max(ExpenseInfo.transaction_date.cast(Date))).\
-                                filter(func.year(ExpenseInfo.transaction_date).in_(years),
-                                func.month(ExpenseInfo.transaction_date).in_(months)).\
-                            group_by(ExpenseInfo.category)
-    
+                            func.max(ExpenseInfo.transaction_date.cast(Date)))
+
+        if "years" in filters and len(filters["years"])>0:
+            expensesTracker = expensesTracker.filter(func.year(ExpenseInfo.transaction_date).in_(years))
+
+        expensesTracker = expensesTracker.filter(func.month(ExpenseInfo.transaction_date).in_(months))
+        expensesTracker = expensesTracker.group_by(ExpenseInfo.category)
+        
         for e in expensesTracker.all():
              exp_key.append(str(e[2]))
              exp_val.append(str(e[0]))
@@ -218,11 +221,17 @@ def filters():
                             func.month(ExpenseInfo.transaction_date),
                             ExpenseInfo.category,
                             ExpenseInfo.sub_category,
-                            func.max(ExpenseInfo.transaction_date.cast(Date))).\
-                                filter(func.year(ExpenseInfo.transaction_date).in_(years),
-                                func.month(ExpenseInfo.transaction_date).in_(months),
-                                ExpenseInfo.category.in_(categories)).\
-                            group_by(ExpenseInfo.sub_category)
+                            func.max(ExpenseInfo.transaction_date.cast(Date)))
+
+        if "years" in filters and len(filters["years"])>0:
+            subcatTracker = subcatTracker.filter(func.year(ExpenseInfo.transaction_date).in_(years))
+
+        if "months" in filters and len(filters["months"])>0:
+            subcatTracker = subcatTracker.filter(func.month(ExpenseInfo.transaction_date).in_(months))
+
+        subcatTracker = subcatTracker.filter(ExpenseInfo.category.in_(categories))
+
+        subcatTracker = subcatTracker.group_by(ExpenseInfo.sub_category)
     
         for e in subcatTracker.all():
              subcat_key.append(str(e[3]))
