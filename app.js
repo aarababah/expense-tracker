@@ -95,3 +95,6 @@ const iePlot3 = function(exp_key, exp_val){
 	data = [expenses]
 	Plotly.react("subcategories", data, layout)
 }
+
+
+sendFilters(filters);
